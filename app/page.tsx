@@ -11,8 +11,8 @@ const Page: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Card 1 */}
           <div className="bg-white p-6 rounded-md shadow-md">
-            <h2 className="text-xl font-semibold mb-4">It's</h2>
-            <p className="text-gray-600">Description of feature 1 goes here.</p>
+            <h2 className="text-xl font-semibold mb-4">It&apos;s</h2>
+            <p className="text-gray-600"> </p>
           </div>
 
           {/* Card 2 */}
@@ -24,7 +24,7 @@ const Page: React.FC = () => {
           {/* Card 3 */}
           <div className="bg-white p-6 rounded-md shadow-md">
             <h2 className="text-xl font-semibold mb-4">At the moment :/</h2>
-            <p className="text-gray-600">Description of feature 3 goes here.</p>
+            <p className="text-gray-600"> </p>
           </div>
         </div>
       </div>
