@@ -5,8 +5,9 @@ import Layout from './layout';
 const Page: React.FC = () => {
   return (
     <Layout>
+      <link rel="icon" type="image/x-icon" href="favicon.ico"></link>
       <div className="container mx-auto mt-10">
-        <h1 className="text-4xl font-bold mb-6">Welcome to My Website</h1>
+        <h1 className="text-4xl font-bold mb-6">Amar Emini</h1>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Card 1 */}
