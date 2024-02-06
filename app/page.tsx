@@ -64,7 +64,7 @@ const Page: React.FC = () => {
     <br />
     <img src="https://static.vecteezy.com/system/resources/previews/001/218/694/large_2x/under-construction-warning-sign-vector.jpg" className="" width="408" height="305" />
     <br />
-    <p className="font-oswald font-bold text-3xl text-center px-28">I'm busy building something amazing! My website is under construction, but I can't wait to share it with you soon.</p>
+    <p className="font-oswald font-bold text-3xl text-center px-28">I&apos;m busy building something amazing! My website is under construction, but I can&apos;t wait to share it with you soon.</p>
     </div>
     
     </Layout>
