@@ -2,7 +2,6 @@ import Image from "next/image";
 import React from 'react';
 import Layout from './layout';
 import { Oswald } from "next/font/google";
-import Nav from "@/components/Nav";
 import Nav2 from "@/components/Nav2";
 
 const Page: React.FC = () => {
