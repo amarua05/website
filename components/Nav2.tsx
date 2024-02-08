@@ -48,10 +48,10 @@ function Nav2() {
         <BsList className='h-8 w-8 text-white'></BsList>
       </div>
       </div>
-      <div className={menuOpen ? 'fixed top-0 left-0 w-[75%] sm:hidden h-screen bg-gray-400 ease-in-out duration-500' : 'fixed left-[-100%] top-0 p-10 ease-in-out duration-500'}>
+      <div className={menuOpen ? 'fixed top-0 right-0 w-[75%] sm:hidden h-screen bg-gray-400 ease-in-out duration-500' : 'fixed left-[-100%] top-0 p-10 ease-in-out duration-500'}>
         <div className='flex w-full items-center justify-end'>
           <div className='cursor-pointer'>
-            <BsX onClick = {toggleMenu} className='h-12 w-12 text-black'></BsX>
+            <BsX onClick = {toggleMenu} className='mt-4 h-12 w-12 text-black'></BsX>
           </div>
         </div>
         {/* Mobile Menu Links */}
