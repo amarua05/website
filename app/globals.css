@@ -30,4 +30,31 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  .navLinks {
+      @apply relative m-4 uppercase font-bold;
+    }
+  .navLinks::after {
+      @apply content-[''] bg-[#fa5655] h-[3px] w-[0%] left-0 -bottom-[7px] rounded-xl absolute duration-300;
+    }
+  .navLinks:hover::after {
+      @apply w-[35px];
+    }
+  .navLinks:hover {
+    @apply text-[#fa5655];
+  }
+
+
+
+  .navLinksActive {
+    @apply relative m-4 uppercase font-bold text-[#fa5655];
+  }
+  .navLinksActive::after {
+    @apply content-[''] bg-[#fff] h-[3px] w-[0%] left-0 -bottom-[7px] rounded-xl absolute duration-300;
+  }
+  .navLinksActive:hover::after {
+    @apply w-[35px];
+  }
+  .navLinksActive:hover {
+    @apply text-[#fff];
+  }
 }
