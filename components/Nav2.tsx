@@ -13,9 +13,9 @@ function Nav2() {
     <nav className='fixed flex w-full h-24 bg-gray-900 shadow-xl z-10'>
       {/**Desktop Menu */}
       <div className='bg-gray-900 flex-1 flex items-center justify-between h-full px-4 w-full'>
-      <Link href="https://amaremini.com">
+      <Link href="/">
       <Image className="cursor-pointer"
-           src="/../white-logo.png" 
+           src="/white-logo.png" 
            alt="Amar Emini Logo"
            width={70}
            height={70}
@@ -24,16 +24,16 @@ function Nav2() {
         <div className='hidden sm:flex text-white'>
           <ul className='hidden sm:flex'>
             <li className='navLinksActive'>
-              <Link href="#">Home</Link>
+              <Link href="/#home">Home</Link>
             </li>
             <li className='navLinks'>
               <Link href="/aboutme">About Me</Link>
             </li>
             <li className='navLinks'> 
-              <Link href="/projects">Projects</Link>
+              <Link href="/#projects">Projects</Link>
             </li>
             <li className="navLinks">
-              <Link href="mailto:amaremini5@icloud.com">Contact me</Link>
+              <Link href="/#contact">Contact me</Link>
             </li>
           </ul>
         </div>
@@ -48,7 +48,7 @@ function Nav2() {
         <div className='flex flex-1 justify-center'> {/** DIV 1 */}
             <Image 
             alt='Logo' 
-            src='/../white-logo.png' 
+            src='/white-logo.png' 
             width={70} 
             height={70} 
             className='mt-[0.45rem]'>  
@@ -65,18 +65,24 @@ function Nav2() {
             <Link className='text-white' href="/aboutme">About Me</Link>
             </li>
             <li onClick = {() => setMenuOpen(false)}className='navLinks'>
-            <Link className='text-white' href="/projects">Projects</Link>
+            <Link className='text-white' href="/#projects">Projects</Link>
             </li>
             <li onClick = {() => setMenuOpen(false)}className='navLinks'>
-              <Link className='text-white' href="mailto:amaremini5@icloud.com">Contact Me</Link>
+              <Link className='text-white' href="/#contact">Contact Me</Link>
             </li>
           </ul>
         </div>
         {/**Social Media Links */}
         <div className='flex flex-row justify-around pt-10'>
-          <BsInstagram href='https://instagram.com/_aamaar1' className='cursor-pointer text-white'></BsInstagram>
-          <BsLinkedin href='https://linkedin.com/in/amar-emini-b82309247' className='cursor-pointer text-white'></BsLinkedin>
-          <BsGithub href='https://github.com/amarua05' className='cursor-pointer text-white'></BsGithub>
+          <a aria-label='Instagram' href='https://instagram.com/_aamaar1' target='_blank' rel='noreferrer' className='cursor-pointer text-white'>
+            <BsInstagram />
+          </a>
+          <a aria-label='LinkedIn' href='https://linkedin.com/in/amar-emini-b82309247' target='_blank' rel='noreferrer' className='cursor-pointer text-white'>
+            <BsLinkedin />
+          </a>
+          <a aria-label='GitHub' href='https://github.com/amarua05' target='_blank' rel='noreferrer' className='cursor-pointer text-white'>
+            <BsGithub />
+          </a>
         </div>
       </div>
     </nav>
