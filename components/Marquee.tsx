@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useMemo, useRef } from "react";
-import { useScroll, useSpring, useVelocity, useAnimationFrame, useMotionValue } from "framer-motion";
+import { motion, useScroll, useSpring, useVelocity, useAnimationFrame, useMotionValue } from "framer-motion";
 
 type MarqueeProps = {
   text: string;
@@ -61,16 +61,14 @@ export default function Marquee({
     return () => window.removeEventListener("resize", handle);
   }, [offsetX]);
 
-  const transform = { transform: `translate3d(${offsetX.get()}px, 0, 0)`, willChange: "transform" } as React.CSSProperties;
-
   return (
     <div ref={containerRef} className={"overflow-hidden whitespace-nowrap select-none " + (className ?? "")}> 
-      <div ref={contentRef} style={transform} className="inline-block">
+      <motion.div ref={contentRef} style={{ x: offsetX, willChange: "transform" }} className="inline-block">
         {content}
-      </div>
-      <div aria-hidden style={transform} className="inline-block">
+      </motion.div>
+      <motion.div aria-hidden style={{ x: offsetX, willChange: "transform" }} className="inline-block">
         {content}
-      </div>
+      </motion.div>
     </div>
   );
 }
