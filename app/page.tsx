@@ -195,7 +195,7 @@ export default function Page() {
 
     <div className="mt-12 text-center">
       <Link
-        href="/projectss"
+        href="/projects"
         className="inline-block px-6 py-3 border border-white/10 text-xs uppercase tracking-widest text-gray-500 rounded-sm hover:border-white hover:text-white transition-all"
       >
         View all projects
