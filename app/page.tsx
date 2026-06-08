@@ -1,169 +1,302 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
-import Nav2 from "@/components/Nav2";
-import Marquee from "@/components/Marquee";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { projects as allProjects } from "@/lib/projects";
-import { BsInstagram, BsLinkedin, BsEnvelopeFill, BsTwitterX } from "react-icons/bs";
+import { projects } from "@/lib/projects";
+import { BsInstagram, BsLinkedin, BsEnvelopeFill, BsGithub } from "react-icons/bs";
+import Nav2 from "@/components/Nav2";
+import { Bebas_Neue } from "next/font/google";
+const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
+
 
 function useAge(birthIso: string) {
-  const [age, setAge] = useState({ years: 0, months: 0, days: 0 });
+  const [age, setAge] = useState({ years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 });
   useEffect(() => {
-    const birthDate = new Date(birthIso);
-    const updateAge = () => {
+    const birth = new Date(birthIso);
+    const update = () => {
       const now = new Date();
-      let years = now.getUTCFullYear() - birthDate.getUTCFullYear();
-      let months = now.getUTCMonth() - birthDate.getUTCMonth();
-      let days = now.getUTCDate() - birthDate.getUTCDate();
-      if (days < 0) {
-        months--;
-        const prevMonth = new Date(now.getUTCFullYear(), now.getUTCMonth(), 0).getUTCDate();
-        days += prevMonth;
-      }
-      if (months < 0) {
-        years--;
-        months += 12;
-      }
-      setAge({ years, months, days });
+      let years = now.getFullYear() - birth.getFullYear();
+      let months = now.getMonth() - birth.getMonth();
+      let days = now.getDate() - birth.getDate();
+      if (days < 0) { months--; days += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); }
+      if (months < 0) { years--; months += 12; }
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      setAge({ years, months, days, hours, minutes, seconds });
     };
-    updateAge();
-    const id = setInterval(updateAge, 60_000);
+    update();
+    const id = setInterval(update, 250);
     return () => clearInterval(id);
   }, [birthIso]);
   return age;
 }
 
-function Carousel() {
-  const [index, setIndex] = useState(0);
-  const items = allProjects;
-  const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n));
-  const prev = () => setIndex(v => clamp(v - 1, 0, items.length - 1));
-  const next = () => setIndex(v => clamp(v + 1, 0, items.length - 1));
-  const center = items[index];
-  const left = items[index - 1];
-  const right = items[index + 1];
+const showcasedProjects = projects.slice(0, 3);
 
-  return (
-    <div className="relative w-full max-w-6xl mx-auto">
-      <button onClick={prev} aria-label="Previous" className="absolute left-0 top-1/2 -translate-y-1/2 z-10 px-4 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur text-white">←</button>
-      <button onClick={next} aria-label="Next" className="absolute right-0 top-1/2 -translate-y-1/2 z-10 px-4 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur text-white">→</button>
-
-      <div className="flex items-center justify-center gap-6 py-10">
-        {/* Left preview */}
-        <div className="hidden md:block w-60 h-40 rounded-2xl bg-gray-800/60 border border-gray-700/50 blur-[2px] scale-95 opacity-70"/>
-        {/* Center card */}
-        <Link href={`/projects/${center.slug}`} className="w-full md:w-[36rem] h-64 rounded-3xl bg-gray-800/60 border border-gray-700/50 p-8 flex flex-col justify-between hover:border-gray-600 transition-colors">
-          <div>
-            <h3 className="text-3xl font-semibold">{center.title}</h3>
-            <p className="text-gray-300 mt-2">{center.summary}</p>
-          </div>
-          <span className="text-sm text-gray-400">Read more →</span>
-        </Link>
-        {/* Right preview */}
-        <div className="hidden md:block w-60 h-40 rounded-2xl bg-gray-800/60 border border-gray-700/50 blur-[2px] scale-95 opacity-70"/>
-      </div>
-    </div>
-  );
-}
+const thumbConfig = [
+  { label: "AG", bg: "from-[#1a0a05] to-[#3d1409]", color: "text-[#e8502a]" },
+  { label: "WD", bg: "from-[#0a0f1a] to-[#0d2040]", color: "text-[#4a9eff]" },
+  { label: "DJ", bg: "from-[#0a1205] to-[#142d0a]", color: "text-[#f5c842]" },
+];
 
 export default function Page() {
-  const age = useAge("2005-10-05T01:30:00Z");
-  const { scrollYProgress } = useScroll();
-  const bgX = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
-
-  const marqueeText = useMemo(() => Array.from({ length: 1 }, () => "AMAR EMINI").join(" "), []);
+  const age = useAge("2005-10-05T00:00:00");
+  
 
   return (
-    <div className="bg-gray-950 text-white min-h-screen font-sans overflow-x-hidden">
+    <div className="bg-[#0a0a0a] text-white min-h-screen font-sans overflow-x-hidden">
+
+      {/* NAV */}
       <Nav2 />
-      <main className="ml-0">
-        {/* Intro */}
-        <section id="home" className="relative flex flex-col items-center justify-center h-screen text-center select-none overflow-hidden">
-          <div className="absolute inset-0 -z-10 opacity-10">
-            {/* background horizontal motion */}
-            <motion.div style={{ x: bgX }} className="whitespace-nowrap text-[10vw] font-extrabold">
-              {Array(4).fill("AMAR EMINI ").join("")}
-            </motion.div>
-          </div>
 
-          {/* Marquee rows */}
-          <div className="w-full pointer-events-none">
-            <Marquee text={" AMAR EMINI ".repeat(8)} className="text-[8vw] font-extrabold opacity-10" direction={-1} />
-            <Marquee text={" AMAR EMINI ".repeat(8)} className="text-[8vw] font-extrabold opacity-10" direction={1} />
-            <Marquee text={" AMAR EMINI ".repeat(8)} className="text-[8vw] font-extrabold opacity-10" direction={-1} />
-          </div>
-
-          {/* Name */}
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} className="text-[15vw] leading-[0.9] font-extrabold z-10">
-            AMAR<br/>EMINI
-          </motion.div>
-
-          {/* Profile */}
-          <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5, duration: 0.8 }} className="mt-10 relative z-10">
-            <div className="w-64 h-64 bg-gray-800 rounded-t-full rounded-b-[2rem] overflow-hidden border border-gray-700/50 shadow-xl">
-              <Image src="/white-logo.png" alt="Profile" width={256} height={256} className="object-cover w-full h-full" />
+      {/* HERO */}
+      <section id="home" className="min-h-screen flex items-center px-8 md:px-16 pt-20">
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
+          <div>
+            <div className="inline-block text-[0.65rem] tracking-[0.2em] uppercase text-[#e8502a] border border-[#e8502a] px-3 py-1 rounded-sm mb-8">
+              Full-Stack Developer
             </div>
-          </motion.div>
 
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.8 }} className="mt-8 text-gray-400 text-lg z-10">
-            Age: {age.years} years, {age.months} months, {age.days} days
-          </motion.p>
-        </section>
+            <h1 className="text-[18vw] md:text-[8rem] font-black leading-[0.88] tracking-tight mb-8">
+              AMAR<br />
+              <span className="text-[#e8502a]">EMINI</span>
+            </h1>
+            
 
-        {/* Projects */}
-        <section id="projects" className="min-h-screen py-32 relative">
-          <motion.h2 whileInView={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 50 }} transition={{ duration: 0.6 }} className="text-6xl font-bold mb-10 text-center">
-            Projects
-          </motion.h2>
+            <div className="flex items-start mb-8">
+              {[
+                { val: age.years, label: "years" },
+                { val: age.months, label: "months" },
+                { val: age.days, label: "days" },
+                { val: age.hours, label: "hours" },
+                { val: age.minutes, label: "minutes" },
+                { val: age.seconds, label: "seconds" },
+              ].map((seg, i, arr) => (
+                <div key={seg.label} className={`flex flex-col items-center pr-4 mr-4 ${i < arr.length - 1 ? "border-r border-white/10" : ""}`}>
+                  <span className="text-3xl font-black text-[#e8502a] leading-none">{seg.val}</span>
+                  <span className="text-[0.6rem] tracking-[0.12em] uppercase text-gray-500 mt-1">{seg.label}</span>
+                </div>
+              ))}
+            </div>
 
-          {/* Background horizontal motion single line */}
-          <div className="absolute top-24 left-0 right-0 opacity-5 -z-10">
-            <Marquee text={" PROJECTS  ".repeat(12)} className="text-[8vw] font-extrabold" direction={-1} />
+            <p className="text-gray-400 font-light leading-relaxed max-w-sm mb-10 text-[0.95rem]">
+              Building products from database to deployment — clean code, bold interfaces, real impact.
+            </p>
+
+            <div className="flex gap-4 flex-wrap">
+              <a href="#projects" className="px-6 py-3 bg-[#e8502a] text-white text-xs font-semibold uppercase tracking-widest rounded-sm hover:bg-transparent hover:text-[#e8502a] border border-[#e8502a] transition-all">
+                View Projects
+              </a>
+              <a href="#contact" className="px-6 py-3 bg-transparent text-white text-xs font-semibold uppercase tracking-widest rounded-sm border border-white/20 hover:border-white transition-all">
+                Get in Touch
+              </a>
+            </div>
           </div>
 
-          <Carousel />
-        </section>
-
-        {/* Contact */}
-        <section id="contact" className="min-h-screen py-32">
-          <motion.h2 whileInView={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 50 }} transition={{ duration: 0.6 }} className="text-6xl font-bold mb-10 text-center">
-            Contact
-          </motion.h2>
-          <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <a href="mailto:hello@amaremini.com" className="group p-6 rounded-3xl bg-gray-800/60 border border-gray-700/50 hover:border-gray-600 transition-colors flex items-center gap-4">
-              <span className="p-3 rounded-2xl bg-white/10 text-white"><BsEnvelopeFill /></span>
+          {/* Code block */}
+          <div className="hidden md:block">
+            <div className="bg-[#1c1c1c] border border-white/10 rounded-xl p-6 font-mono text-sm leading-8">
+              <div className="text-gray-600 text-xs mb-4 tracking-widest">● ● ●</div>
+              <div><span className="text-[#e8502a]">const</span> <span className="text-[#b8c9e8]">developer</span> = {"{"}</div>
+              <div>&nbsp;&nbsp;<span className="text-[#f5c842]">name</span>: <span className="text-[#9ec6a3]">'Amar Emini'</span>,</div>
+              <div>&nbsp;&nbsp;<span className="text-[#f5c842]">stack</span>: [<span className="text-[#9ec6a3]">'React'</span>, <span className="text-[#9ec6a3]">'Node'</span>, <span className="text-[#9ec6a3]">'SQL'</span>],</div>
+              <div>&nbsp;&nbsp;<span className="text-[#f5c842]">focus</span>: <span className="text-[#9ec6a3]">'full-stack'</span>,</div>
+              <div>&nbsp;&nbsp;<span className="text-[#f5c842]">available</span>: <span className="text-[#e8502a]">true</span></div>
+              <div>{"}"}</div>
+              <div className="mt-4 text-gray-500 italic text-xs">// Currently building great things with {"<3"}</div>
               <div>
-                <div className="font-semibold">Email</div>
-                <div className="text-gray-400">hello@amaremini.com</div>
-              </div>
-            </a>
-            <a href="https://linkedin.com/in/amar-emini" target="_blank" rel="noreferrer" className="group p-6 rounded-3xl bg-gray-800/60 border border-gray-700/50 hover:border-gray-600 transition-colors flex items-center gap-4">
-              <span className="p-3 rounded-2xl bg-white/10 text-white"><BsLinkedin /></span>
-              <div>
-                <div className="font-semibold">LinkedIn</div>
-                <div className="text-gray-400">linkedin.com/in/amar-emini</div>
-              </div>
-            </a>
-            <a href="https://instagram.com/_aamaar1" target="_blank" rel="noreferrer" className="group p-6 rounded-3xl bg-gray-800/60 border border-gray-700/50 hover:border-gray-600 transition-colors flex items-center gap-4">
-              <span className="p-3 rounded-2xl bg-white/10 text-white"><BsInstagram /></span>
-              <div>
-                <div className="font-semibold">Instagram</div>
-                <div className="text-gray-400">@_aamaar1</div>
-              </div>
-            </a>
-            <a href="https://x.com/_aamaar1" target="_blank" rel="noreferrer" className="group p-6 rounded-3xl bg-gray-800/60 border border-gray-700/50 hover:border-gray-600 transition-colors flex items-center gap-4">
-              <span className="p-3 rounded-2xl bg-white/10 text-white"><BsTwitterX /></span>
-              <div>
-                <div className="font-semibold">X</div>
-                <div className="text-gray-400">@_aamaar1</div>
-              </div>
-            </a>
+              <span className="text-[#f5c842]">developer</span>.<span className="text-[#f5c842]">ship</span>()
+              <span className="inline-block w-[2px] h-[1em] bg-[#e8502a] ml-[1px] align-middle animate-pulse"></span></div>
+            </div>
           </div>
-          <footer className="py-10 text-center text-gray-600 text-sm">© {new Date().getFullYear()} Amar Emini</footer>
-        </section>
-      </main>
+        </div>
+      </section>
+
+      {/* ABOUT */}
+      <section id="about" className="py-32 px-8 md:px-16">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-[0.65rem] tracking-[0.2em] uppercase text-[#e8502a] mb-2">Who I am</p>
+          <h2 className="text-5xl md:text-6xl font-black mb-2">About Me</h2>
+          <div className="w-12 h-0.5 bg-[#e8502a] mb-14" />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div className="space-y-5 text-gray-400 font-light leading-relaxed text-[0.95rem]">
+              <p>I'm a full-stack developer who thrives at the intersection of thoughtful engineering and great user experience. I care about writing code that's readable, systems that scale, and products that people enjoy using.</p>
+              <p>Whether it's architecting a backend API, crafting a pixel-perfect UI, or optimizing a slow database query — I'm in my element when solving real problems end-to-end.</p>
+              <p>When I'm not coding, I'm probably tinkering with side projects or learning something new.</p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { num: "3+", label: "Years of experience" },
+                { num: "8+", label: "Technologies mastered" },
+                { num: "100%", label: "Passion for code" },
+                { num: "∞", label: "Coffee consumed" },
+              ].map(s => (
+                <div key={s.label} className="bg-[#1c1c1c] border-l-2 border-[#e8502a] border-y border-r border-white/5 rounded-md p-5">
+                  <div className="text-4xl font-black text-white leading-none">{s.num}</div>
+                  <div className="text-xs text-gray-500 mt-2">{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PROJECTS */}
+      <section id="projects" className="py-32 px-8 md:px-16 bg-[#111]">
+  <div className="max-w-7xl mx-auto">
+    <p className="text-[0.65rem] tracking-[0.2em] uppercase text-[#e8502a] mb-2">
+      What I've built
+    </p>
+    <h2 className="text-5xl md:text-6xl font-black mb-2">Projects</h2>
+    <div className="w-12 h-0.5 bg-[#e8502a] mb-14" />
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {showcasedProjects.map((project, i) => (
+        <div
+          key={project.slug}
+          className="group bg-[#0a0a0a] border border-white/5 rounded-lg overflow-hidden hover:border-[#e8502a] transition-all duration-300 hover:-translate-y-1"
+        >
+          <div
+            className={`h-44 flex items-center justify-center text-5xl font-black bg-gradient-to-br ${thumbConfig[i].bg} ${thumbConfig[i].color}`}
+          >
+            {thumbConfig[i].label}
+          </div>
+
+          <div className="p-6">
+            <h3 className="text-xl font-black mb-2">{project.title}</h3>
+
+            <p className="text-gray-400 text-sm font-light leading-relaxed">
+              {project.summary}
+            </p>
+
+            <div className="mt-6 pt-5 border-t border-white/5 flex gap-3">
+              <Link
+                href={project.demo}
+                target="_blank"
+                className="flex-1 text-center py-2.5 bg-[#e8502a] text-white text-xs font-semibold uppercase tracking-widest rounded-sm hover:bg-[#ff6b45] transition-colors"
+              >
+                Live Demo
+              </Link>
+
+              <Link
+                href={project.github}
+                target="_blank"
+                className="flex-1 text-center py-2.5 border border-white/10 text-gray-400 text-xs font-semibold uppercase tracking-widest rounded-sm hover:border-[#e8502a] hover:text-[#e8502a] transition-colors"
+              >
+                Source Code
+              </Link>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div className="mt-12 text-center">
+      <Link
+        href="/projectss"
+        className="inline-block px-6 py-3 border border-white/10 text-xs uppercase tracking-widest text-gray-500 rounded-sm hover:border-white hover:text-white transition-all"
+      >
+        View all projects
+      </Link>
+    </div>
+  </div>
+</section>
+
+      {/* SKILLS */}
+      <section id="skills" className="py-32 px-8 md:px-16">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-[0.65rem] tracking-[0.2em] uppercase text-[#e8502a] mb-2">What I work with</p>
+          <h2 className="text-5xl md:text-6xl font-black mb-2">Skills</h2>
+          <div className="w-12 h-0.5 bg-[#e8502a] mb-14" />
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { title: "Frontend", items: ["React", "TypeScript", "Next.js", "Tailwind CSS"] },
+              { title: "Backend", items: ["Node.js", "Python", "FastAPI", "REST APIs"] },
+              { title: "Data & Cloud", items: ["PostgreSQL", "Appwrite", "MongoDB", "AWS / GCP"] },
+              { title: "Tools", items: ["Docker", "Git / GitHub", "Vite", "Linux"] },
+            ].map(group => (
+              <div key={group.title} className="bg-[#1c1c1c] border border-white/5 rounded-lg p-5">
+                <div className="text-[0.6rem] tracking-[0.18em] uppercase text-[#e8502a] mb-4 font-semibold">{group.title}</div>
+                {group.items.map(item => (
+                  <div key={item} className="flex items-center gap-2.5 text-sm text-gray-400 font-light py-2.5 border-b border-white/5 last:border-0">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#e8502a] shrink-0" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+    {/* CONTACT */}
+<section id="contact" className="py-32 px-8 md:px-16 bg-[#111]">
+  <div className="max-w-7xl mx-auto">
+    <p className="text-[0.65rem] tracking-[0.2em] uppercase text-[#e8502a] mb-2">
+      Let's talk
+    </p>
+
+    <h2 className={`text-5xl md:text-6xl font-black mb-2 ${bebas.className}`}>
+      Get In Touch
+    </h2>
+
+    <div className="w-12 h-0.5 bg-[#e8502a] mb-6" />
+
+    <p className="text-gray-400 mb-12 max-w-md text-sm leading-relaxed">
+      Open to new opportunities, collaborations, or just a good conversation
+      about tech.
+    </p>
+
+    <a
+      href="mailto:hello@amaremini.com"
+      className={`block text-5xl md:text-5xl tracking-wide leading-none hover:text-[#e8502a] transition-colors duration-300 ${bebas.className}`}
+    >
+      hello@amaremini.com
+    </a>
+
+    <div className="mt-10 flex flex-wrap items-center gap-4 text-xs uppercase tracking-[0.25em] text-gray-500">
+      <a
+        href="https://linkedin.com/in/amar-emini"
+        target="_blank"
+        rel="noreferrer"
+        className="hover:text-[#e8502a] transition-colors"
+      >
+        LinkedIn
+      </a>
+
+      <span className="text-gray-700">/</span>
+
+      <a
+        href="https://github.com/amarua05"
+        target="_blank"
+        rel="noreferrer"
+        className="hover:text-[#e8502a] transition-colors"
+      >
+        GitHub
+      </a>
+
+      <span className="text-gray-700">/</span>
+
+      <a
+        href="https://instagram.com/_aamaar1"
+        target="_blank"
+        rel="noreferrer"
+        className="hover:text-[#e8502a] transition-colors"
+      >
+        Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+      {/* FOOTER */}
+      <footer className="py-8 px-8 md:px-16 border-t border-white/5 flex justify-between items-center text-xs text-gray-600">
+        <span>© {new Date().getFullYear()} Amar Emini</span>
+        <span>made with {"<3"}</span>
+      </footer>
     </div>
   );
 }
