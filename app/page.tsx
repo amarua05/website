@@ -35,13 +35,33 @@ const showcasedProjects = projects.slice(0, 3);
 
 const thumbConfig = [
   { label: "AG", bg: "from-[#1a0a05] to-[#3d1409]", color: "text-[#e8502a]" },
-  { label: "WD", bg: "from-[#0a0f1a] to-[#0d2040]", color: "text-[#4a9eff]" },
-  { label: "DJ", bg: "from-[#0a1205] to-[#142d0a]", color: "text-[#f5c842]" },
+  { label: "PF", bg: "from-[#0a0f1a] to-[#0d2040]", color: "text-[#4a9eff]" },
+  { label: "WD", bg: "from-[#0a1205] to-[#142d0a]", color: "text-[#f5c842]" },
 ];
+
+
 
 export default function Page() {
   const age = useAge("2005-10-05T00:00:00");
-  
+  const skillLinks: { [key: string]: string } = {
+    "React": "https://react.dev",
+    "TypeScript": "https://www.typescriptlang.org/docs",
+    "Next.js": "https://nextjs.org/docs",
+    "Tailwind CSS": "https://tailwindcss.com/docs",
+    "Node.js": "https://nodejs.org/en/docs",
+    "Python": "https://docs.python.org/3",
+    "FastAPI": "https://fastapi.tiangolo.com",
+    "REST APIs": "https://developer.mozilla.org/en-US/docs/Web/HTTP",
+    "PostgreSQL": "https://www.postgresql.org/docs",
+    "Appwrite": "https://appwrite.io/docs",
+    "MongoDB": "https://www.mongodb.com/docs",
+    "AWS / GCP": "https://docs.aws.amazon.com",
+    "Docker": "https://docs.docker.com",
+    "Git / GitHub": "https://docs.github.com",
+    "Vite": "https://vitejs.dev/guide",
+    "Linux": "https://www.kernel.org/doc/html/latest",
+  };
+
 
   return (
     <div className="bg-[#0a0a0a] text-white min-h-screen font-sans overflow-x-hidden">
@@ -62,7 +82,11 @@ export default function Page() {
               <span className="text-[#e8502a]">EMINI</span>
             </h1>
             
-
+            <div className="mb-2">
+              <span className="text-[0.65rem] tracking-[0.2em] uppercase text-[#e8502a] mb-2">
+                MY AGE
+              </span>
+            </div>
             <div className="flex items-start mb-8">
               {[
                 { val: age.years, label: "years" },
@@ -74,7 +98,7 @@ export default function Page() {
               ].map((seg, i, arr) => (
                 <div key={seg.label} className={`flex flex-col items-center pr-4 mr-4 ${i < arr.length - 1 ? "border-r border-white/10" : ""}`}>
                   <span className="text-3xl font-black text-[#e8502a] leading-none">{seg.val}</span>
-                  <span className="text-[0.6rem] tracking-[0.12em] uppercase text-gray-500 mt-1">{seg.label}</span>
+                  <span className="text-[0.4rem] tracking-[0.02em] uppercase text-gray-500 mt-1">{seg.label}</span>
                 </div>
               ))}
             </div>
@@ -210,7 +234,6 @@ export default function Page() {
           <p className="text-[0.65rem] tracking-[0.2em] uppercase text-[#e8502a] mb-2">What I work with</p>
           <h2 className="text-5xl md:text-6xl font-black mb-2">Skills</h2>
           <div className="w-12 h-0.5 bg-[#e8502a] mb-14" />
-
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { title: "Frontend", items: ["React", "TypeScript", "Next.js", "Tailwind CSS"] },
@@ -221,10 +244,16 @@ export default function Page() {
               <div key={group.title} className="bg-[#1c1c1c] border border-white/5 rounded-lg p-5">
                 <div className="text-[0.6rem] tracking-[0.18em] uppercase text-[#e8502a] mb-4 font-semibold">{group.title}</div>
                 {group.items.map(item => (
-                  <div key={item} className="flex items-center gap-2.5 text-sm text-gray-400 font-light py-2.5 border-b border-white/5 last:border-0">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#e8502a] shrink-0" />
+                  <a
+                    key={item}
+                    href={skillLinks[item]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2.5 text-sm text-gray-400 font-light py-2.5 border-b border-white/5 last:border-0 hover:text-white transition-colors duration-150 group/item"
+                    >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#e8502a] shrink-0 group-hover/item:scale-125 transition-transform duration-150" />
                     {item}
-                  </div>
+                  </a>
                 ))}
               </div>
             ))}
