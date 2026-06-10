@@ -74,7 +74,7 @@ export default function Page() {
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
           <div>
             <div className="inline-block text-[0.65rem] tracking-[0.2em] uppercase text-[#e8502a] border border-[#e8502a] px-3 py-1 rounded-sm mb-8">
-              Full-Stack Developer
+              FullStack Developer
             </div>
 
             <h1 className="text-[18vw] md:text-[8rem] font-black leading-[0.88] tracking-tight mb-8">
