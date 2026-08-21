@@ -39,10 +39,10 @@ export default function scroller() {
         text-white
         shadow-lg
         transition-all duration-300
-        hover:w-40
+        hover:w-45
         ${
           visible
-            ? "w-12 opacity-100 translate-y-0"
+            ? "w-12 opacity-60 translate-y-0"
             : "w-12 opacity-0 translate-y-4 pointer-events-none"
         }
       `}
@@ -51,8 +51,8 @@ export default function scroller() {
       ↑
       </span>
 
-      <span className="whitespace-nowrap pr-5 text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        Go to top
+      <span className="whitespace-nowrap pr-6 text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        Scroll to top
       </span>
     </button>
   );

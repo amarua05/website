@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { projects } from "@/lib/projects";
-import { BsInstagram, BsLinkedin, BsEnvelopeFill, BsGithub } from "react-icons/bs";
 import Nav2 from "@/components/Nav2";
 import { Bebas_Neue } from "next/font/google";
+import { useRouter } from "next/navigation";
+import HoverWeightText from "@/components/HoverWeightText";
+import { robotoFlex } from "@/lib/fonts";
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 
 
@@ -42,6 +44,7 @@ const thumbConfig = [
 
 
 export default function Page() {
+  const router = useRouter();
   const age = useAge("2005-10-05T00:00:00");
   const skillLinks: { [key: string]: string } = {
     "React": "https://react.dev",
@@ -77,9 +80,10 @@ export default function Page() {
               Full-Stack Developer
             </div>
 
-            <h1 className="text-[18vw] md:text-[8rem] font-black leading-[0.88] tracking-tight mb-8">
-              AMAR<br />
-              <span className="text-[#e8502a]">EMINI</span>
+            <h1 className="text-[18vw] md:text-[8rem] leading-[0.88] tracking-tight mb-8">
+  <HoverWeightText text="AMAR" className="block" fontClassName={robotoFlex.className} />
+  <br />
+  <HoverWeightText text="EMINI" className="block text-[#e8502a]" fontClassName={robotoFlex.className} />
             </h1>
             
             <div className="mb-2">
@@ -130,7 +134,8 @@ export default function Page() {
               <div className="mt-4 text-gray-500 italic text-xs">// Currently building great things with {"<3"}</div>
               <div>
               <span className="text-[#f5c842]">developer</span>.<span className="text-[#f5c842]">ship</span>()
-              <span className="inline-block w-[2px] h-[1em] bg-[#e8502a] ml-[1px] align-middle animate-pulse"></span></div>
+              <span className="inline-block w-[2px] h-[1em] bg-[#e8502a] ml-[1px] align-middle [animation:blink_1s_steps(1)_infinite]"></span>
+              </div>
             </div>
           </div>
         </div>
@@ -168,7 +173,7 @@ export default function Page() {
       </section>
 
       {/* PROJECTS */}
-      <section id="projects" className="py-32 px-8 md:px-16 bg-[#111]">
+<section id="projects" className="py-32 px-8 md:px-16 bg-[#111]">
   <div className="max-w-7xl mx-auto">
     <p className="text-[0.65rem] tracking-[0.2em] uppercase text-[#e8502a] mb-2">
       What I've built
@@ -177,44 +182,61 @@ export default function Page() {
     <div className="w-12 h-0.5 bg-[#e8502a] mb-14" />
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {showcasedProjects.map((project, i) => (
-        <div
-          key={project.slug}
-          className="group bg-[#0a0a0a] border border-white/5 rounded-lg overflow-hidden hover:border-[#e8502a] transition-all duration-300 hover:-translate-y-1"
-        >
+      {showcasedProjects.map((project, i) => {
+        const hasPage = project.about && project.about !== "#";
+        return (
           <div
-            className={`h-44 flex items-center justify-center text-5xl font-black bg-gradient-to-br ${thumbConfig[i].bg} ${thumbConfig[i].color}`}
+            key={project.slug}
+            onClick={() => {
+              if (hasPage) router.push(project.about);
+            }}
+            role={hasPage ? "link" : undefined}
+            tabIndex={hasPage ? 0 : undefined}
+            onKeyDown={(e) => {
+              if (hasPage && (e.key === "Enter" || e.key === " ")) {
+                router.push(project.about);
+              }
+            }}
+            className={`group bg-[#0a0a0a] border border-white/5 rounded-lg overflow-hidden hover:border-[#e8502a] transition-all duration-300 hover:-translate-y-1 ${
+              hasPage ? "cursor-pointer" : ""
+            }`}
           >
-            {thumbConfig[i].label}
-          </div>
+            <div
+              className={`h-44 flex items-center justify-center text-5xl font-black bg-gradient-to-br ${thumbConfig[i].bg} ${thumbConfig[i].color}`}
+            >
+              {thumbConfig[i].label}
+            </div>
 
-          <div className="p-6">
-            <h3 className="text-xl font-black mb-2">{project.title}</h3>
+            <div className="p-6">
+              <h3 className="text-xl font-black mb-2">{project.title}</h3>
 
-            <p className="text-gray-400 text-sm font-light leading-relaxed">
-              {project.summary}
-            </p>
+              <p className="text-gray-400 text-sm font-light leading-relaxed">
+                {project.summary}
+              </p>
 
-            <div className="mt-6 pt-5 border-t border-white/5 flex gap-3">
-              <Link
-                href={project.demo}
-                target="_blank"
-                className="flex-1 text-center py-2.5 bg-[#e8502a] text-white text-xs font-semibold uppercase tracking-widest rounded-sm hover:bg-[#ff6b45] transition-colors"
-              >
-                Live Demo
-              </Link>
+              <div className="mt-6 pt-5 border-t border-white/5 flex gap-3">
+                <Link
+                  href={project.demo}
+                  target="_blank"
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex-1 text-center py-2.5 bg-[#e8502a] text-white text-xs font-semibold uppercase tracking-widest rounded-sm hover:bg-[#ff6b45] transition-colors"
+                >
+                  Live Demo
+                </Link>
 
-              <Link
-                href={project.github}
-                target="_blank"
-                className="flex-1 text-center py-2.5 border border-white/10 text-gray-400 text-xs font-semibold uppercase tracking-widest rounded-sm hover:border-[#e8502a] hover:text-[#e8502a] transition-colors"
-              >
-                Source Code
-              </Link>
+                <Link
+                  href={project.github}
+                  target="_blank"
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex-1 text-center py-2.5 border border-white/10 text-gray-400 text-xs font-semibold uppercase tracking-widest rounded-sm hover:border-[#e8502a] hover:text-[#e8502a] transition-colors"
+                >
+                  Source Code
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
 
     <div className="mt-12 text-center">
