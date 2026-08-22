@@ -31,5 +31,13 @@ export const projects: Project[] = [
     about: "/wordle",
     demo: "https://wordle.amaremini.com",
     github: "https://github.com/amarua05/wordle-clone",
+  },
+  {
+    slug: "twitch-overlay",
+    title: "Twitch chat Overlay",
+    summary: "A Twitch chat overlay built with Next.js and TypeScript.",
+    about: "/twitch-overlay",
+    demo: "https://amaremini.com/twitch-overlay",
+    github: "https://github.com/amarua05/twitch-chat-overlay",
   }
 ];

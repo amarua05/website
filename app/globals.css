@@ -64,3 +64,88 @@ body {
     scroll-behavior: smooth;
   }
 }
+
+
+
+.wordmark {
+  display: flex;
+  align-items: center;
+  perspective: 650px;
+}
+
+.wordmark-letter {
+  display: inline-block;
+  transform-origin: center center;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+  will-change: transform;
+  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.wordmark-a {
+  animation: wordmark-a-flip 15s ease-in-out infinite;
+}
+
+.wordmark-e {
+  animation: wordmark-e-flip 15s ease-in-out infinite;
+}
+
+/* Hover resets the logo and stops the idle animation */
+.wordmark:hover .wordmark-letter {
+  animation: none !important;
+  transform: rotateX(0deg);
+}
+
+/* A flips twice: at the beginning and after E */
+@keyframes wordmark-a-flip {
+  0% {
+    transform: rotateX(0deg);
+  }
+
+  10% {
+    transform: rotateX(360deg);
+  }
+
+  10.01%,
+  60% {
+    transform: rotateX(0deg);
+  }
+
+  70% {
+    transform: rotateX(360deg);
+  }
+
+  70.01%,
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+/* E flips one second after A */
+@keyframes wordmark-e-flip {
+  0%,
+  30% {
+    transform: rotateX(0deg);
+  }
+
+  40% {
+    transform: rotateX(360deg);
+  }
+
+  40.01%,
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+.wordle-tile {
+  display: inline-flex;
+  width: 1.55em;
+  height: 1.55em;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0.06em;
+  background: #b59f3b;
+  color: #ffffff;
+  font-size: 0.9em;
+  line-height: 1;
+}

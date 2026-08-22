@@ -118,7 +118,7 @@ export default function WordleClonePage() {
   <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10">
     <a
       href="#overview"
-      className="group flex items-center text-lg font-black uppercase tracking-[-0.08em]"
+      className="wordmark group text-lg font-black uppercase tracking-[-0.08em]"
     >
      <span>WORDLE</span>
             <span className="inline-block max-w-[8px] overflow-hidden text-[#b59f3b] transition-all duration-300 group-hover:max-w-0">
@@ -128,11 +128,15 @@ export default function WordleClonePage() {
                 <span className="text-white"> — </span>
                 <span className="text-white">BY </span>
             </span>
-            <span className="text-[#b59f3b]">A</span>
+            <span className="wordle-tile">
+                <span className="wordmark-letter wordmark-a">A</span>
+            </span>
             <span className="inline-block max-w-0 overflow-hidden whitespace-nowrap text-white transition-all duration-[400ms] ease-in-out group-hover:max-w-[42px]">
                 MAR 
             </span>
-            <span className="text-[#b59f3b]">E</span>
+            <span className="wordle-tile">
+                <span className="wordmark-letter wordmark-e">E</span>
+            </span>
             <span className="inline-block max-w-0 overflow-hidden whitespace-nowrap text-white transition-all duration-[400ms] ease-in-out group-hover:max-w-[45px]">
                 MINI
             </span>
