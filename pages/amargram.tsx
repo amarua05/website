@@ -19,10 +19,20 @@ export default function AmarGram() {
 
 	useEffect(() => {
 		const onScroll = () => {
-			const current = sections.find((id) => (document.getElementById(id)?.getBoundingClientRect().top ?? 999) <= 190);
-			if (current) setActive(current);
+			const current = sections
+        .slice()
+        .reverse()
+        .find(
+          (id) =>
+            (document.getElementById(id)?.getBoundingClientRect().top ?? 999) <=
+            190
+        );
+
+      if (current) setActive(current);
 		};
 		window.addEventListener("scroll", onScroll, { passive: true });
+		onScroll();
+
 		return () => window.removeEventListener("scroll", onScroll);
 	}, []);
 
@@ -47,7 +57,9 @@ export default function AmarGram() {
 								key={id}
 								onClick={() => scrollTo(id)}
 								className={`whitespace-nowrap text-xs uppercase tracking-[0.15em] transition-colors ${
-									active === id ? "text-[#e8502a] font-semibold" : "text-gray-500 hover:text-white"
+									active === id 
+									? "text-[#e8502a] font-semibold" 
+									: "text-gray-500 hover:text-white"
 								}`}
 							>
 								{id[0].toUpperCase() + id.slice(1)}

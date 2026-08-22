@@ -28,7 +28,7 @@ export const projects: Project[] = [
     slug: "wordle-clone",
     title: "Wordle Clone",
     summary: "A Wordle clone built with Next.js and TypeScript.",
-    about: "#",
+    about: "/wordle",
     demo: "https://wordle.amaremini.com",
     github: "https://github.com/amarua05/wordle-clone",
   }
